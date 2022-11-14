@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Mixin(Item.class)
 abstract class ItemMixin {
-	private final Gson g = new Gson();
+	private final Gson gson = new Gson();
 
 	@Inject(at = @At("RETURN"), method = "getTooltipImage", cancellable = true)
 	private void injectCustomTooltip(ItemStack stack, CallbackInfoReturnable<Optional<TooltipComponent>> cir) {
@@ -26,7 +26,7 @@ abstract class ItemMixin {
 		if (nbtData != null) {
 			String jsonData = nbtData.getAsString();
 
-			BackpackContent content = g.fromJson(jsonData, BackpackContent.class);
+			BackpackContent content = gson.fromJson(jsonData, BackpackContent.class);
 
 			NonNullList<ItemStack> inventoryList = NonNullList.withSize(content.slotAmount, ItemStack.EMPTY);
 
