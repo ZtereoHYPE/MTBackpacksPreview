@@ -12,14 +12,6 @@ group = project.maven_group
 
 repositories {
 	mavenCentral()
-	maven { url "https://maven.parchmentmc.org" }		// parchment mappings
-	maven { url "https://maven.terraformersmc.com/" } 	// modmenu
-	maven { name = "Modrinth"							// lazydfu, starlight, lithium
-		url = "https://api.modrinth.com/maven"
-		content {
-			includeGroup "maven.modrinth"
-		}
-	}
 }
 
 dependencies {
@@ -28,29 +20,14 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
 	mappings loom.layered {
-		it.parchment("org.parchmentmc.data:parchment-1.19.2:2022.08.10@zip") // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data/parchment-1.18.1/BLEEDING-SNAPSHOT
 		it.officialMojangMappings {
 			setNameSyntheticMembers(false)
 		}
 	}
 
-	// apis
-	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
-
-	// devenv mods
-	modRuntimeOnly "maven.modrinth:lazydfu:${project.lazydfu_version}"
-	modRuntimeOnly "maven.modrinth:starlight:${project.starlight_version}"
-	modRuntimeOnly "maven.modrinth:lithium:${project.lithium_version}"
-	modRuntimeOnly("com.terraformersmc:modmenu:${project.modmenu_version}") {
-		transitive = false
-	}
-
 	// libraries
 	compileOnly 'org.projectlombok:lombok:1.18.24'
 	annotationProcessor 'org.projectlombok:lombok:1.18.24'
-
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	//	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
 processResources {
@@ -62,14 +39,10 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	// Minecraft 1.18 (1.18-pre2) upwards uses Java 17.
 	it.options.release = 17
 }
 
 java {
-	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-	// if it is present.
-	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 }
 
