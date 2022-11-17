@@ -1,6 +1,6 @@
 package codes.ztereohype.mtbackpackspreview.mixin;
 
-import codes.ztereohype.mtbackpackspreview.tooltip.Dummy;
+import codes.ztereohype.mtbackpackspreview.tooltip.TooltipManager;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -15,9 +15,9 @@ import java.util.Optional;
 abstract class ItemMixin {
 	@Inject(at = @At("RETURN"), method = "getTooltipImage", cancellable = true)
 	private void injectCustomTooltip(ItemStack stack, CallbackInfoReturnable<Optional<TooltipComponent>> cir) {
-		var returned = Dummy.call(stack);
+		var returned = TooltipManager.getCustomTooltip(stack);
 		if (returned.isPresent()) {
-			cir.setReturnValue(Dummy.call(stack));
+			cir.setReturnValue(returned);
 			cir.cancel();
 		}
 	}

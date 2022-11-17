@@ -9,19 +9,16 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Optional;
 
-public class Dummy {
+public class TooltipManager {
     private static final Gson gson = new Gson();
-    public static Optional<TooltipComponent> call(ItemStack stack) {
+    public static Optional<TooltipComponent> getCustomTooltip(ItemStack stack) {
         CompoundTag nbtData = stack.getTag();
 
         if (nbtData == null || !nbtData.contains("BackpackPreviewTag")) return Optional.empty();
 
-        String jsonData = nbtData.get("BackpackPreviewTag").getAsString();
-
-        BackpackContent content = gson.fromJson(jsonData, BackpackContent.class);
+        BackpackContent content = gson.fromJson(nbtData.get("BackpackPreviewTag").getAsString(), BackpackContent.class);
 
         NonNullList<ItemStack> inventoryList = NonNullList.withSize(content.slotAmount, ItemStack.EMPTY);
-
         for (BackpackContent.InventorySlot slot : content.populatedSlots) {
             inventoryList.set(slot.getIndex(), slot.getItemStack());
         }
