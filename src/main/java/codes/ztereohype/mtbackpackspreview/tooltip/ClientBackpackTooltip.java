@@ -6,8 +6,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.inventory.tooltip.ClientBundleTooltip;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -35,16 +37,16 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public void renderImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset) {
+    public void renderImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset, TextureManager textureManager) {
         int i = this.gridSizeX();
         int j = this.gridSizeY();
-        int k = 0;
+        int slot = 0;
 
         for(int l = 0; l < j; ++l) {
             for(int m = 0; m < i; ++m) {
                 int n = mouseX + m * SLOT_SIZE_X + 1;
                 int o = mouseY + l * SLOT_SIZE_Y + 1;
-                this.renderSlot(n, o, k++, font, poseStack, itemRenderer, blitOffset);
+                this.renderSlot(n, o, slot++, font, poseStack, itemRenderer, blitOffset);
             }
         }
 
@@ -80,10 +82,10 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
         this.blit(poseStack, x + slotWidth * SLOT_SIZE_X + 1, y + slotHeight * SLOT_SIZE_Y + 1, blitOffset, ClientBackpackTooltip.Texture.BORDER_CORNER_BOTTOM);
     }
 
-    private void blit(PoseStack poseStack, int x, int y, int blitOffset, ClientBackpackTooltip.Texture texture) {
+    private void blit(PoseStack poseStack, int i, int j, int k, ClientBackpackTooltip.Texture texture) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TEXTURE_LOCATION);
-        GuiComponent.blit(poseStack, x, y, blitOffset, (float)texture.x, (float)texture.y, texture.w, texture.h, 128, 128);
+        GuiComponent.blit(poseStack, i, j, k, (float)texture.x, (float)texture.y, texture.w, texture.h, 128, 128);
     }
 
     private int gridSizeX() {
