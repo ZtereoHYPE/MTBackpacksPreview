@@ -3,8 +3,8 @@ plugins {
 	id 'io.github.juuxel.loom-quiltflower' version '1.7.1'	// to use genSourcesWithQuiltflower
 }
 
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_16
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
 version = project.mod_version
@@ -39,7 +39,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 16
+	it.options.release = 8
 }
 
 java {

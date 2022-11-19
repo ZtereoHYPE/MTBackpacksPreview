@@ -1,13 +1,11 @@
 package codes.ztereohype.mtbackpackspreview.tooltip;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.ClientTooltipComponent;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientBundleTooltip;
-import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.NonNullList;
@@ -83,8 +81,8 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
     }
 
     private void blit(PoseStack poseStack, int i, int j, int k, ClientBackpackTooltip.Texture texture) {
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE_LOCATION);
+//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//        RenderSystem.setShaderTexture(0, TEXTURE_LOCATION);
         GuiComponent.blit(poseStack, i, j, k, (float)texture.x, (float)texture.y, texture.w, texture.h, 128, 128);
     }
 
