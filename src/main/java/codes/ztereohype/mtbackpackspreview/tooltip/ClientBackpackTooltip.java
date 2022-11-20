@@ -1,9 +1,11 @@
 package codes.ztereohype.mtbackpackspreview.tooltip;
 
 import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.ClientTooltipComponent;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.entity.ItemRenderer;
@@ -13,7 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class ClientBackpackTooltip implements ClientTooltipComponent {
-    public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("textures/gui/container/bundle.png");
+    public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("modid", "textures/gui/bundle.png");
     private static final int SLOT_SIZE_X = 18;
     private static final int SLOT_SIZE_Y = 18;
     private final NonNullList<ItemStack> items;
@@ -30,12 +32,12 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
     }
 
     @Override
-    public int getWidth(Font font) {
+    public int getWidth() {
         return gridSizeX() * SLOT_SIZE_X + 2;
     }
 
     @Override
-    public void renderImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset, TextureManager textureManager) {
+    public void renderImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset) {
         int i = this.gridSizeX();
         int j = this.gridSizeY();
         int slot = 0;
@@ -57,7 +59,7 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
         } else {
             ItemStack itemStack = this.items.get(itemIndex);
             this.blit(poseStack, x, y, blitOffset, ClientBackpackTooltip.Texture.SLOT);
-            itemRenderer.renderAndDecorateItem(itemStack, x + 1, y + 1, itemIndex);
+            itemRenderer.renderAndDecorateItem(itemStack, x + 1, y + 1);
             itemRenderer.renderGuiItemDecorations(font, itemStack, x + 1, y + 1);
         }
     }
@@ -82,7 +84,9 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
 
     private void blit(PoseStack poseStack, int i, int j, int k, ClientBackpackTooltip.Texture texture) {
 //        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-//        RenderSystem.setShaderTexture(0, TEXTURE_LOCATION);
+//        RenderSystem.activeTexture(TEXTURE_LOCATION);
+        RenderSystem.clearColor(1f, 1f, 1f, 1f);
+        Minecraft.getInstance().getTextureManager().bind(TEXTURE_LOCATION);
         GuiComponent.blit(poseStack, i, j, k, (float)texture.x, (float)texture.y, texture.w, texture.h, 128, 128);
     }
 
