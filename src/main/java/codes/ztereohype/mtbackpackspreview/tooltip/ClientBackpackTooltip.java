@@ -1,5 +1,6 @@
 package codes.ztereohype.mtbackpackspreview.tooltip;
 
+import codes.ztereohype.mtbackpackspreview.MTBackpacksPreview;
 import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.ClientTooltipComponent;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,13 +16,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class ClientBackpackTooltip implements ClientTooltipComponent {
-    public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("modid", "textures/gui/bundle.png");
+    public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(MTBackpacksPreview.getMODID(), "textures/gui/container/bundle.png");
     private static final int SLOT_SIZE_X = 18;
     private static final int SLOT_SIZE_Y = 18;
     private final NonNullList<ItemStack> items;
     private final int unlockedSize;
 
     public ClientBackpackTooltip(BackpackTooltip backpackTooltip) {
+        System.out.println(Minecraft.getInstance().getResourceManager().getNamespaces());
         this.items = backpackTooltip.getItems();
         this.unlockedSize = backpackTooltip.getItems().size();
     }
