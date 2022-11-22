@@ -5,7 +5,6 @@ import codes.ztereohype.mtbackpackspreview.tooltip.ClientBackpackTooltip;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.texture.TextureManager;
 
 
 public interface ClientTooltipComponent {

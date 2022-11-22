@@ -10,20 +10,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class ClientBackpackTooltip implements ClientTooltipComponent {
-    public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(MTBackpacksPreview.getMODID(), "textures/gui/container/bundle.png");
+    public static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation(MTBackpacksPreview.MODID, "textures/gui/bundle.png");
     private static final int SLOT_SIZE_X = 18;
     private static final int SLOT_SIZE_Y = 18;
     private final NonNullList<ItemStack> items;
     private final int unlockedSize;
 
     public ClientBackpackTooltip(BackpackTooltip backpackTooltip) {
-        System.out.println(Minecraft.getInstance().getResourceManager().getNamespaces());
         this.items = backpackTooltip.getItems();
         this.unlockedSize = backpackTooltip.getItems().size();
     }
@@ -61,8 +59,9 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
         } else {
             ItemStack itemStack = this.items.get(itemIndex);
             this.blit(poseStack, x, y, blitOffset, ClientBackpackTooltip.Texture.SLOT);
-            itemRenderer.renderAndDecorateItem(itemStack, x + 1, y + 1);
-            itemRenderer.renderGuiItemDecorations(font, itemStack, x + 1, y + 1);
+            itemRenderer.blitOffset = blitOffset;
+            itemRenderer.renderAndDecorateItem(Minecraft.getInstance().player, itemStack, x + 1, y + 1);
+            itemRenderer.renderGuiItemDecorations(font, itemStack, x + 1,  y + 1);
         }
     }
 
@@ -85,8 +84,6 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
     }
 
     private void blit(PoseStack poseStack, int i, int j, int k, ClientBackpackTooltip.Texture texture) {
-//        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-//        RenderSystem.activeTexture(TEXTURE_LOCATION);
         RenderSystem.clearColor(1f, 1f, 1f, 1f);
         Minecraft.getInstance().getTextureManager().bind(TEXTURE_LOCATION);
         GuiComponent.blit(poseStack, i, j, k, (float)texture.x, (float)texture.y, texture.w, texture.h, 128, 128);
