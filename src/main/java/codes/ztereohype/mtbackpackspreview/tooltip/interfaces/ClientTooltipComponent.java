@@ -2,7 +2,6 @@ package codes.ztereohype.mtbackpackspreview.tooltip.interfaces;
 
 import codes.ztereohype.mtbackpackspreview.tooltip.BackpackTooltip;
 import codes.ztereohype.mtbackpackspreview.tooltip.ClientBackpackTooltip;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 
@@ -20,6 +19,6 @@ public interface ClientTooltipComponent {
 
     int getWidth();
 
-    void renderImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset);
+    void renderImage(Font font, int mouseX, int mouseY, ItemRenderer itemRenderer, int blitOffset);
 }
 

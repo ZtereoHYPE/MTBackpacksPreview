@@ -36,7 +36,7 @@ public class TooltipManager {
         return Optional.of(new BackpackTooltip(inventoryList));
     }
 
-    public static void renderTooltipComponent(PoseStack poseStack, ClientTooltipComponent component, int i, int j) {
-        component.renderImage(Minecraft.getInstance().font, i, j, poseStack, Minecraft.getInstance().getItemRenderer(), 400);
+    public static void renderTooltipComponent(ClientTooltipComponent component, int i, int j) {
+        component.renderImage(Minecraft.getInstance().font, i, j, Minecraft.getInstance().getItemRenderer(), 400);
     }
 }
