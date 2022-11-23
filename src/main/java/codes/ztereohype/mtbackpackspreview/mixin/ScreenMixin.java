@@ -66,7 +66,7 @@ public abstract class ScreenMixin {
     }
 
     @ModifyVariable(method = "renderTooltip(Ljava/util/List;II)V",
-                    at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client/gui/Font;drawInBatch(Ljava/lang/String;FFIZLcom/mojang/math/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;ZII)I"),
+                    at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client/gui/Font;drawShadow(Ljava/lang/String;FFI)I"),
                     ordinal = 4)
     int shiftDownardsRestOfTooltip(int value) {
         return tooltipComponent != null ? value + tooltipComponent.getHeight() : value;

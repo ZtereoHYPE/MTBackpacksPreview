@@ -35,7 +35,7 @@ public class BackpackContent {
             }
 
             if (customModelData != 0) {
-                items.addTagElement("CustomModelData", IntTag.valueOf(customModelData));
+                items.addTagElement("CustomModelData", new IntTag(customModelData));
             }
 
             return items;
