@@ -24,6 +24,9 @@ public abstract class ScreenMixin {
     @Shadow
     public int width;
 
+    @Shadow
+    public int height;
+
     private ClientTooltipComponent tooltipComponent = null;
     private int fieldParsed = 0;
 
@@ -43,6 +46,8 @@ public abstract class ScreenMixin {
     void injectImageTooltip(ItemStack itemStack, int i, int j, CallbackInfo ci) {
         if (tooltipComponent != null) {
             int x = i + 12;
+            int y = j;
+
             int tooltipWidth = this.tooltipComponent.getWidth();
 
             List<String> knownTooltip = itemStack.getTooltip(MinecraftClient.getInstance().player,
@@ -59,7 +64,17 @@ public abstract class ScreenMixin {
                 x -= 28 + tooltipWidth;
             }
 
-            TooltipManager.renderTooltipComponent(tooltipComponent, x, j);
+            int o = 8 + this.tooltipComponent.getHeight();
+            int componentSize = knownTooltip.size();
+            if (componentSize > 1) {
+                o += 2 + (componentSize - 1) * 10;
+            }
+
+            if (y + o - 6 > this.height) {
+                y = this.height - o + 6;
+            }
+
+            TooltipManager.renderTooltipComponent(tooltipComponent, x, y);
         }
     }
 

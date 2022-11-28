@@ -78,11 +78,10 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
     }
 
     private void blit(int xScreen, int yScreen, int blitX, int blitY, int blitW, int blitH, float spriteSizeX, float spriteSizeY, Identifier location) {
-        GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
-        GlStateManager.disableRescaleNormal();
-        DiffuseLighting.disable();
         GlStateManager.disableLighting();
         GlStateManager.disableDepthTest();
+        GlStateManager.disableBlend();
+        GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
 
         MinecraftClient.getInstance().getTextureManager().bindTexture(location);
         DrawableHelper.drawTexture(xScreen, yScreen, blitX, blitY, blitW, blitH, spriteSizeX, spriteSizeY);
