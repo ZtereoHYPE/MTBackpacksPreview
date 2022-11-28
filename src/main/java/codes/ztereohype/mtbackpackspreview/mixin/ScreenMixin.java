@@ -56,9 +56,9 @@ public abstract class ScreenMixin {
             }
 
             int o = 8 + this.tooltipComponent.getHeight();
-            List<String> list = getTooltipFromItem(itemStack);
-            if (list.size() > 1) {
-                o += 2 + (list.size() - 1) * 10;
+            int componentSize = this.getTooltipFromItem(itemStack).size();
+            if (componentSize > 1) {
+                o += 2 + (componentSize - 1) * 10;
             }
 
             if (y + o - 6 > this.height) {
@@ -79,10 +79,24 @@ public abstract class ScreenMixin {
          return tooltipComponent != null ? constant + tooltipComponent.getWidth() : constant;
     }
 
+    @ModifyArg(method = "renderTooltip(Ljava/util/List;II)V",
+            at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;")
+    )
+    public int captureLocals(int original) {
+        forIndex = original;
+        return original;
+    }
+
+    private int forIndex = 0;
+
     @ModifyVariable(method = "renderTooltip(Ljava/util/List;II)V",
                     at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client/gui/Font;drawInBatch(Ljava/lang/String;FFIZLcom/mojang/math/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;ZII)I"),
                     ordinal = 4)
-    int shiftDownardsRestOfTooltip(int value) {
-        return tooltipComponent != null ? value + tooltipComponent.getHeight() : value;
+    int shiftDownardsRestOfTooltip(int original) {
+        if (this.tooltipComponent == null)
+            return original;
+        if (forIndex == 1)
+            return original + this.tooltipComponent.getHeight();
+        return original;
     }
 }
