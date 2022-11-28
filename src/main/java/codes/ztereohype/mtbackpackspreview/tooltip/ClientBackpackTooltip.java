@@ -62,17 +62,14 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
             ItemStack itemStack = this.items.get(itemIndex);
             if (itemStack == null) return;
 
-            Screen screen = MinecraftClient.getInstance().currentScreen;
-            if (screen instanceof HandledScreen) {
-                try {
-                    ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
-                    TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+            try {
+                ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
+                TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
-                    renderer.renderInGuiWithOverrides(itemStack, x + 1, y + 1);
-                    renderer.renderGuiItemOverlay(textRenderer, itemStack, x + 1, y + 1, itemStack.count + "");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                renderer.renderInGuiWithOverrides(itemStack, x + 1, y + 1);
+                renderer.renderGuiItemOverlay(textRenderer, itemStack, x + 1, y + 1, itemStack.count + "");
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
