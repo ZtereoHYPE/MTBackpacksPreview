@@ -1,14 +1,15 @@
 package codes.ztereohype.mtbackpackspreview.tooltip;
 
+import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.TooltipComponent;
 import lombok.Getter;
-import net.minecraft.core.NonNullList;
-import net.minecraft.world.inventory.tooltip.TooltipComponent;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 public class BackpackTooltip implements TooltipComponent {
-    private final @Getter NonNullList<ItemStack> items;
+    private final @Getter List<ItemStack> items;
 
-    public BackpackTooltip(NonNullList<ItemStack> items) {
+    public BackpackTooltip(List<ItemStack> items) {
         this.items = items;
     }
 }
