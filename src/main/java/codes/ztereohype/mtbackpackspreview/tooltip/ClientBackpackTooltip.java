@@ -4,12 +4,15 @@ import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.ClientTooltipCompo
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
+import java.time.Instant;
 import java.util.List;
 
 public class ClientBackpackTooltip implements ClientTooltipComponent {
@@ -52,12 +55,12 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
     }
 
     private void renderRows(int x, int y, int rows) {
-        blit(x, y, 6, 16, SLOT_SIZE * 9 + 2, SLOT_SIZE * rows + 1, CHEST_LOCATION);
+        blit(x, y, 6, 16, SLOT_SIZE * 9 + 2, SLOT_SIZE * rows + 1, 256, 256, CHEST_LOCATION);
     }
 
     private void renderSlot(int x, int y, int itemIndex, ItemRenderer itemRenderer, int blitOffset) {
         if (itemIndex >= this.unlockedSize) {
-            this.blit(x, y, 0, 60, SLOT_SIZE, SLOT_SIZE, BUNDLE_LOCATION);
+            this.blit(x, y, 0, 40, SLOT_SIZE, SLOT_SIZE, 128, 128, BUNDLE_LOCATION);
         } else {
             ItemStack itemStack = this.items.get(itemIndex);
             if (itemStack == null) return;
@@ -74,14 +77,15 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
         }
     }
 
-    private void blit(int xScreen, int yScreen, int blitX, int blitY, int blitW, int blitH, Identifier location) {
+    private void blit(int xScreen, int yScreen, int blitX, int blitY, int blitW, int blitH, float spriteSizeX, float spriteSizeY, Identifier location) {
+        GlStateManager.color4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GlStateManager.disableRescaleNormal();
+        DiffuseLighting.disable();
         GlStateManager.disableLighting();
         GlStateManager.disableDepthTest();
-        GlStateManager.disableBlend();
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
         MinecraftClient.getInstance().getTextureManager().bindTexture(location);
-        MinecraftClient.getInstance().currentScreen.drawTexture(xScreen, yScreen, blitX, blitY, blitW, blitH);
+        DrawableHelper.drawTexture(xScreen, yScreen, blitX, blitY, blitW, blitH, spriteSizeX, spriteSizeY);
     }
 
     private int gridSizeX() {
