@@ -33,7 +33,7 @@ public class TooltipManager {
             inventoryList.set(slot.getIndex(), slot.getItemStack());
         }
 
-//        NonNullList<ItemStack> inventoryList = NonNullList.withSize(13, new ItemStack(Registry.ITEM.get(ResourceLocation.of("minecraft:stone", ':')), 67));
+//        NonNullList<ItemStack> list = NonNullList.withSize(41, new ItemStack(Registry.ITEM.get(ResourceLocation.of("minecraft:stone", ':')), 4324));
 
         return Optional.of(new BackpackTooltip(inventoryList));
     }

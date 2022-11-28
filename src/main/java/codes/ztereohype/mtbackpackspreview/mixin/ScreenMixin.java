@@ -21,6 +21,7 @@ import java.util.Optional;
 public abstract class ScreenMixin {
     @Shadow public abstract List<String> getTooltipFromItem(ItemStack itemStack);
     @Shadow public int width;
+    @Shadow public int height;
 
     private ClientTooltipComponent tooltipComponent = null;
 
@@ -40,6 +41,8 @@ public abstract class ScreenMixin {
     void injectImageTooltip(ItemStack itemStack, int i, int j, CallbackInfo ci) {
         if (tooltipComponent != null) {
             int x = i + 12;
+            int y = j;
+
             int tooltipWidth = this.tooltipComponent.getWidth();
             for (String text : this.getTooltipFromItem(itemStack)) {
                 int width = Minecraft.getInstance().font.width(text);
@@ -51,7 +54,18 @@ public abstract class ScreenMixin {
             if (x + tooltipWidth > this.width) {
                 x -= 28 + tooltipWidth;
             }
-            TooltipManager.renderTooltipComponent(tooltipComponent, x, j);
+
+            int o = 8 + this.tooltipComponent.getHeight();
+            List<String> list = getTooltipFromItem(itemStack);
+            if (list.size() > 1) {
+                o += 2 + (list.size() - 1) * 10;
+            }
+
+            if (y + o - 6 > this.height) {
+                y = this.height - o + 6;
+            }
+
+            TooltipManager.renderTooltipComponent(tooltipComponent, x, y);
         }
     }
 
