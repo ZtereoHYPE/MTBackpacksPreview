@@ -2,9 +2,10 @@
   "required": true,
   "minVersion": "0.8",
   "package": "codes.ztereohype.mtbackpackspreview.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "client": [
-    "ScreenMixin"
+    "ClientTooltipComponentMixin",
+    "ItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

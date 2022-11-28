@@ -1,52 +1,28 @@
 package codes.ztereohype.mtbackpackspreview.tooltip;
 
 import codes.ztereohype.mtbackpackspreview.BackpackContent;
-import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.ClientTooltipComponent;
-import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.TooltipComponent;
 import com.google.gson.Gson;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.inventory.tooltip.TooltipComponent;
+import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Optional;
 
 public class TooltipManager {
-    private static final String PREVIEW_TAG = "BackpackPreviewTag";
     private static final Gson gson = new Gson();
+    public static Optional<TooltipComponent> getCustomTooltip(ItemStack stack) {
+        CompoundTag nbtData = stack.getTag();
 
-    public static TooltipComponent getCustomTooltip(ItemStack stack) {
-        NbtCompound compound = stack.getNbt();
-        if (compound == null)
-            return null;
+        if (nbtData == null || !nbtData.contains("BackpackPreviewTag")) return Optional.empty();
 
-        if (!compound.contains(PREVIEW_TAG))
-            return null;
+        BackpackContent content = gson.fromJson(nbtData.get("BackpackPreviewTag").getAsString(), BackpackContent.class);
 
-        BackpackContent content = null;
-        try {
-            String unparsedContent = compound.getString(PREVIEW_TAG);
-            content = gson.fromJson(unparsedContent, BackpackContent.class);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            return null;
+        NonNullList<ItemStack> inventoryList = NonNullList.withSize(content.slotAmount, ItemStack.EMPTY);
+        for (BackpackContent.InventorySlot slot : content.populatedSlots) {
+            inventoryList.set(slot.getIndex(), slot.getItemStack());
         }
 
-        ItemStack[] inventoryArray = new ItemStack[content.slotAmount];
-        for (int i = 0; i < content.slotAmount; i++)
-            inventoryArray[i] = null;
-
-        for (BackpackContent.InventorySlot slot : content.populatedSlots)
-            inventoryArray[slot.getIndex()] = slot.getItemStack();
-
-        return new BackpackTooltip(Arrays.asList(inventoryArray));
-    }
-
-    public static void renderTooltipComponent(ClientTooltipComponent component, int i, int j) {
-        ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
-        component.renderImage(i, j, renderer, 400);
+        return Optional.of(new BackpackTooltip(inventoryList));
     }
 }
