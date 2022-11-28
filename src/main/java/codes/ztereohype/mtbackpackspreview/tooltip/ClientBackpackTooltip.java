@@ -91,4 +91,5 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
     private int gridSizeY() {
         return (int) Math.ceil((double) unlockedSize / 9);
     }
+
 }

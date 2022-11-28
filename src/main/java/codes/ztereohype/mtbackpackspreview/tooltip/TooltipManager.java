@@ -19,13 +19,7 @@ public class TooltipManager {
     private static final Gson gson = new Gson();
 
     public static TooltipComponent getCustomTooltip(ItemStack stack) {
-        List<ItemStack> thing = new ArrayList<>();
-        thing.add(new ItemStack(Blocks.SAND));
-        for (int i = 0; i < 27 - 1; i++)
-            thing.add(new ItemStack(Blocks.AIR));
-        return new BackpackTooltip(thing);
-
-       /* NbtCompound compound = stack.getNbt();
+        NbtCompound compound = stack.getNbt();
         if (compound == null)
             return null;
 
@@ -48,7 +42,7 @@ public class TooltipManager {
         for (BackpackContent.InventorySlot slot : content.populatedSlots)
             inventoryArray[slot.getIndex()] = slot.getItemStack();
 
-        return new BackpackTooltip(Arrays.asList(inventoryArray));*/
+        return new BackpackTooltip(Arrays.asList(inventoryArray));
     }
 
     public static void renderTooltipComponent(ClientTooltipComponent component, int i, int j) {
