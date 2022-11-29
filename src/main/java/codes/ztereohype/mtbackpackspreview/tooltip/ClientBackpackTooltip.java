@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.item.ItemRenderer;
@@ -111,8 +112,8 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
         int tooltipWidth = this.getWidth();
         int tooltipHeight = this.getHeight();
 
-        List<String> knownTooltip = itemStack.getTooltip(MinecraftClient.getInstance().player,
-                MinecraftClient.getInstance().options.advancedItemTooltips);
+        List<String> knownTooltip = MinecraftClient.getInstance().currentScreen
+                .method_14502(itemStack);
 
         if (MinecraftClient.getInstance().currentScreen instanceof CreativeInventoryScreen) {
             CreativeInventoryScreen screen = (CreativeInventoryScreen) MinecraftClient.getInstance().currentScreen;
