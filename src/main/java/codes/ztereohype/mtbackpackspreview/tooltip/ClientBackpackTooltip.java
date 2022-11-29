@@ -5,10 +5,13 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.itemgroup.ItemGroup;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 
 import java.util.List;
 
@@ -69,7 +72,7 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
                 TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
                 DiffuseLighting.enable();
-                
+
                 renderer.renderInGuiWithOverrides(itemStack, x + 1, y + 1);
                 renderer.renderGuiItemOverlay(textRenderer, itemStack, x + 1, y + 1, itemStack.count + "");
             } catch (Exception e) {
@@ -94,6 +97,46 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
 
     private int gridSizeY() {
         return (int) Math.ceil((double) unlockedSize / 9);
+    }
+
+    public Pair<Integer, Integer> snapCoordinates(ItemStack itemStack, int i, int j) {
+        int x = i + 12;
+        int y = j;
+
+        int height = MinecraftClient.getInstance().currentScreen.height;
+        int width = MinecraftClient.getInstance().currentScreen.width;
+
+        int tooltipWidth = this.getWidth();
+        int tooltipHeight = this.getHeight();
+
+        List<String> knownTooltip = itemStack.getTooltip(MinecraftClient.getInstance().player,
+                MinecraftClient.getInstance().options.advancedItemTooltips);
+
+        if (MinecraftClient.getInstance().currentScreen instanceof CreativeInventoryScreen) {
+            CreativeInventoryScreen screen = (CreativeInventoryScreen) MinecraftClient.getInstance().currentScreen;
+            if (screen.getSelectedTab() == ItemGroup.SEARCH.getIndex())
+                y += 10;
+        }
+
+        for (String text : knownTooltip) {
+            int textWidth = MinecraftClient.getInstance().textRenderer.getStringWidth(text);
+            if (textWidth > tooltipWidth)
+                tooltipWidth = textWidth;
+        }
+        if (x + tooltipWidth > width)
+            x -= 28 + tooltipWidth;
+
+
+        int componentSize = knownTooltip.size();
+        if (componentSize > 1) {
+            tooltipHeight += 10 + (componentSize - 1) * 10;
+        }
+
+        if (y + tooltipHeight - 6 > height) {
+            y = height - tooltipHeight + 6;
+        }
+
+        return new Pair<>(x, y);
     }
 
 }

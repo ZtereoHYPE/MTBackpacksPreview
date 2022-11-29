@@ -7,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,15 +21,7 @@ import java.util.Optional;
 
 @Mixin(Screen.class)
 public abstract class ScreenMixin {
-    //        @Shadow public abstract List<String> getTooltipFromItem(ItemStack itemStack);
-    @Shadow
-    public int width;
-
-    @Shadow
-    public int height;
-
-    private ClientTooltipComponent tooltipComponent = null;
-    private int fieldParsed = 0;
+    protected ClientTooltipComponent tooltipComponent = null;
 
     @Inject(at = @At("HEAD"), method = "renderTooltip(Lnet/minecraft/item/ItemStack;II)V")
     void getTooltipMetadata(ItemStack itemStack, int i, int j, CallbackInfo ci) {
@@ -45,35 +38,10 @@ public abstract class ScreenMixin {
     @Inject(at = @At("RETURN"), method = "renderTooltip(Lnet/minecraft/item/ItemStack;II)V")
     void injectImageTooltip(ItemStack itemStack, int i, int j, CallbackInfo ci) {
         if (tooltipComponent != null) {
-            int x = i + 12;
-            int y = j;
+            Pair<Integer, Integer> snappedCoordinates = tooltipComponent.snapCoordinates(itemStack, i, j);
 
-            int tooltipWidth = this.tooltipComponent.getWidth();
-
-            List<String> knownTooltip = itemStack.getTooltip(MinecraftClient.getInstance().player,
-                    MinecraftClient.getInstance().options.advancedItemTooltips);
-
-            for (String text : knownTooltip) {
-                int width = MinecraftClient.getInstance().textRenderer.getStringWidth(text);
-                if (width > tooltipWidth) {
-                    tooltipWidth = width;
-                }
-            }
-
-            if (x + tooltipWidth > this.width) {
-                x -= 28 + tooltipWidth;
-            }
-
-            int o = 8 + this.tooltipComponent.getHeight();
-            int componentSize = knownTooltip.size();
-            if (componentSize > 1) {
-                o += 2 + (componentSize - 1) * 10;
-            }
-
-            if (y + o - 6 > this.height) {
-                y = this.height - o + 6;
-            }
-
+            int x = snappedCoordinates.getLeft();
+            int y = snappedCoordinates.getRight();
             TooltipManager.renderTooltipComponent(tooltipComponent, x, y);
         }
     }
