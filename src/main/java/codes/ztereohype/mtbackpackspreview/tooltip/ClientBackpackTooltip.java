@@ -5,6 +5,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -39,6 +40,8 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
         int j = this.gridSizeY();
         int slot = 0;
 
+        itemRenderer.zOffset = blitOffset;
+
         renderRows(mouseX, mouseY, j);
 
         for (int l = 0; l < j; ++l) {
@@ -65,6 +68,8 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
                 ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
                 TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
+                DiffuseLighting.enable();
+                
                 renderer.renderInGuiWithOverrides(itemStack, x + 1, y + 1);
                 renderer.renderGuiItemOverlay(textRenderer, itemStack, x + 1, y + 1, itemStack.count + "");
             } catch (Exception e) {
