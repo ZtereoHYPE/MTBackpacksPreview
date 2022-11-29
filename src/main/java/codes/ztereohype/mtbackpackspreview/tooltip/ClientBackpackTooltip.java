@@ -4,19 +4,23 @@ import codes.ztereohype.mtbackpackspreview.MTBackpacksPreview;
 import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.ClientTooltipComponent;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.datafixers.util.Pair;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 import java.lang.reflect.Method;
 import java.time.Instant;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -125,5 +129,45 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
             this.w = l;
             this.h = m;
         }
+    }
+
+
+    public Pair<Integer, Integer> snapCoordinates(ItemStack itemStack, int i, int j) {
+        int x = i + 12;
+        int y = j;
+
+        int height = Minecraft.getInstance().screen.height;
+        int width = Minecraft.getInstance().screen.width;
+
+        int tooltipWidth = this.getWidth();
+        int tooltipHeight = this.getHeight();
+
+        List<String> knownTooltip = Minecraft.getInstance().screen.getTooltipFromItem(itemStack);
+
+        if (Minecraft.getInstance().screen instanceof CreativeModeInventoryScreen) {
+            CreativeModeInventoryScreen screen = (CreativeModeInventoryScreen) Minecraft.getInstance().screen;
+            if (screen.getSelectedTab() == CreativeModeTab.TAB_SEARCH.getId())
+                y += 10;
+        }
+
+        for (String text : knownTooltip) {
+            int textWidth = Minecraft.getInstance().font.width(text);
+            if (textWidth > tooltipWidth)
+                tooltipWidth = textWidth;
+        }
+        if (x + tooltipWidth > width)
+            x -= 28 + tooltipWidth;
+
+
+        int componentSize = knownTooltip.size();
+        if (componentSize > 1) {
+            tooltipHeight += 10 + (componentSize - 1) * 10;
+        }
+
+        if (y + tooltipHeight - 6 > height) {
+            y = height - tooltipHeight + 6;
+        }
+
+        return new Pair<>(x, y);
     }
 }
