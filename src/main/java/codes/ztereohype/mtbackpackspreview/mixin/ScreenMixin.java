@@ -4,6 +4,7 @@ import codes.ztereohype.mtbackpackspreview.tooltip.TooltipManager;
 import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.ClientTooltipComponent;
 import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.TooltipComponent;
 import com.google.common.collect.Lists;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -24,12 +25,7 @@ public abstract class ScreenMixin {
     @Shadow
     public abstract List<String> getTooltipFromItem(ItemStack itemStack);
 
-    @Shadow
-    public int width;
-
-    @Shadow
-    public int height;
-    private ClientTooltipComponent tooltipComponent = null;
+    protected ClientTooltipComponent tooltipComponent = null;
 
     @Inject(at = @At("HEAD"), method = "renderTooltip(Lnet/minecraft/world/item/ItemStack;II)V")
     void getTooltipMetadata(ItemStack itemStack, int i, int j, CallbackInfo ci) {
@@ -46,31 +42,10 @@ public abstract class ScreenMixin {
     @Inject(at = @At("RETURN"), method = "renderTooltip(Lnet/minecraft/world/item/ItemStack;II)V")
     void injectImageTooltip(ItemStack itemStack, int i, int j, CallbackInfo ci) {
         if (tooltipComponent != null) {
-            int x = i + 12;
-            int y = j;
+            Pair<Integer, Integer> snappedCoordinates = tooltipComponent.snapCoordinates(itemStack, i, j);
 
-            int tooltipWidth = this.tooltipComponent.getWidth();
-            for (String text : this.getTooltipFromItem(itemStack)) {
-                int width = Minecraft.getInstance().font.width(text);
-                if (width > tooltipWidth) {
-                    tooltipWidth = width;
-                }
-            }
-
-            if (x + tooltipWidth > this.width) {
-                x -= 28 + tooltipWidth;
-            }
-
-            int o = 8 + this.tooltipComponent.getHeight();
-            int componentSize = this.getTooltipFromItem(itemStack).size();
-            if (componentSize > 1) {
-                o += 2 + (componentSize - 1) * 10;
-            }
-
-            if (y + o - 6 > this.height) {
-                y = this.height - o + 6;
-            }
-
+            int x = snappedCoordinates.getFirst();
+            int y = snappedCoordinates.getSecond();
             TooltipManager.renderTooltipComponent(tooltipComponent, x, y);
         }
     }
