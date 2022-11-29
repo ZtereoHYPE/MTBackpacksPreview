@@ -36,7 +36,7 @@ public class BackpackContent {
             else
                 items = new ItemStack(Item.byRawId(id));
 
-            items.count = this.amount;
+            items.setCount(this.amount);
             items.setDamage(durability);
 
             if (enchanted) {
