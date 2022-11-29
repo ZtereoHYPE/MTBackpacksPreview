@@ -89,31 +89,6 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
         this.blit(x + slotWidth * SLOT_SIZE_X + 1, y + slotHeight * SLOT_SIZE_Y + 1, blitOffset, ClientBackpackTooltip.Texture.BORDER_CORNER_BOTTOM);
     }
 
-    /**
-     * This method will cycle through a different configuration of the
-     * {@link GlStateManager} every 5 seconds in order to attempt to
-     * find the correct configuration for a certain task.
-     */
-    private void fenaggleGLStateManager(){
-        Class<?> cls = GlStateManager.class;
-        Random r = new Random();
-        r.setSeed(Instant.now().getEpochSecond());
-
-        for (Method cr : cls.getMethods()) {
-            if(r.nextBoolean())
-                continue;
-            if (cr.getParameterTypes().length == 0) {
-                try {
-                    System.out.print(cr.getName()+" ");
-                    cr.invoke(null);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        System.out.println();
-    }
-
     private void blit(int i, int j, int k, ClientBackpackTooltip.Texture texture) {
         Lighting.turnOnGui();
 
