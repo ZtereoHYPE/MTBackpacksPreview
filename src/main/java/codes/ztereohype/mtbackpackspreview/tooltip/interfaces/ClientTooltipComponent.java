@@ -3,8 +3,10 @@ package codes.ztereohype.mtbackpackspreview.tooltip.interfaces;
 import codes.ztereohype.mtbackpackspreview.tooltip.BackpackTooltip;
 import codes.ztereohype.mtbackpackspreview.tooltip.ClientBackpackTooltip;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.world.item.ItemStack;
 
 
 public interface ClientTooltipComponent {
@@ -21,5 +23,7 @@ public interface ClientTooltipComponent {
     int getWidth();
 
     void renderImage(Font font, int mouseX, int mouseY, PoseStack poseStack, ItemRenderer itemRenderer, int blitOffset);
+
+    Pair<Integer, Integer> snapCoordinates(ItemStack itemStack, int i, int j);
 }
 
