@@ -18,17 +18,18 @@ import java.util.Optional;
 
 public class TooltipManager {
     private static final Gson gson = new Gson();
-    public static Optional<TooltipComponent> getCustomTooltip(ItemStack stack) {
+
+    public static TooltipComponent getCustomTooltip(ItemStack stack) {
         CompoundTag nbtData = stack.getTag();
 
-        if (nbtData == null || !nbtData.contains("BackpackPreviewTag")) return Optional.empty();
+        if (nbtData == null || !nbtData.contains("BackpackPreviewTag")) return null;
 
         BackpackContent content;
         try {
             content = gson.fromJson(nbtData.get("BackpackPreviewTag").getAsString(), BackpackContent.class);
         } catch (NullPointerException e) {
             e.printStackTrace();
-            return Optional.empty();
+            return null;
         }
 
         NonNullList<ItemStack> inventoryList = NonNullList.withSize(content.slotAmount, ItemStack.EMPTY);
@@ -38,7 +39,7 @@ public class TooltipManager {
 
 //        NonNullList<ItemStack> inventoryList = NonNullList.withSize(13, new ItemStack(Registry.ITEM.get(ResourceLocation.of("minecraft:stone", ':')), 12));
 
-        return Optional.of(new BackpackTooltip(inventoryList));
+        return new BackpackTooltip(inventoryList);
     }
 
     public static void renderTooltipComponent(ClientTooltipComponent component, int i, int j) {
