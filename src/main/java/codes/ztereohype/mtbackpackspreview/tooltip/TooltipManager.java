@@ -4,15 +4,12 @@ import codes.ztereohype.mtbackpackspreview.BackpackContent;
 import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.ClientTooltipComponent;
 import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.TooltipComponent;
 import com.google.gson.Gson;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class TooltipManager {
     private static final String PREVIEW_TAG = "BackpackPreviewTag";
