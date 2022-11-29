@@ -70,7 +70,7 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
 
                 DiffuseLighting.enable();
                 
-                renderer.renderInGuiWithOverrides(itemStack, x + 1, y + 1);
+                renderer.method_10249(MinecraftClient.getInstance().player, itemStack, x + 1, y + 1);
                 renderer.renderGuiItemOverlay(textRenderer, itemStack, x + 1, y + 1, itemStack.count + "");
             } catch (Exception e) {
                 e.printStackTrace();

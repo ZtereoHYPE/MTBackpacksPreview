@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 
+import java.rmi.registry.Registry;
 import java.util.List;
 
 @NoArgsConstructor
@@ -39,7 +40,7 @@ public class BackpackContent {
             items.setDamage(durability);
 
             if (enchanted) {
-                items.addEnchantment(Enchantment.PROTECTION, 1);
+                items.addEnchantment(Enchantment.REGISTRY.get(new Identifier("minecraft", "protection")), 1);
             }
 
             if (customModelData != 0) {
