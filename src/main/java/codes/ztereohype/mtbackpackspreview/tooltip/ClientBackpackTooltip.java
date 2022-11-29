@@ -5,14 +5,10 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 
-import java.time.Instant;
 import java.util.List;
 
 public class ClientBackpackTooltip implements ClientTooltipComponent {
@@ -49,7 +45,7 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
             for (int m = 0; m < i; ++m) {
                 int n = mouseX + m * SLOT_SIZE + 1;
                 int o = mouseY + l * SLOT_SIZE + 1;
-                this.renderSlot(n, o, slot++, itemRenderer, blitOffset);
+                this.renderSlot(n, o, slot++);
             }
         }
     }
@@ -58,7 +54,7 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
         blit(x, y, 6, 16, SLOT_SIZE * 9 + 2, SLOT_SIZE * rows + 1, 256, 256, CHEST_LOCATION);
     }
 
-    private void renderSlot(int x, int y, int itemIndex, ItemRenderer itemRenderer, int blitOffset) {
+    private void renderSlot(int x, int y, int itemIndex) {
         if (itemIndex >= this.unlockedSize) {
             this.blit(x, y, 0, 40, SLOT_SIZE, SLOT_SIZE, 128, 128, BUNDLE_LOCATION);
         } else {
