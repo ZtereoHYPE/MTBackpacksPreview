@@ -32,14 +32,14 @@ public abstract class ScreenMixin {
 
     @Inject(at = @At("HEAD"), method = "renderTooltip(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/item/ItemStack;II)V")
     void getTooltipMetadata(PoseStack poseStack, ItemStack itemStack, int i, int j, CallbackInfo ci) {
-        Optional<TooltipComponent> potentialTooltip = TooltipManager.getCustomTooltip(itemStack);
+        TooltipComponent potentialTooltip = TooltipManager.getCustomTooltip(itemStack);
 
-        if (!potentialTooltip.isPresent()) {
+        if (potentialTooltip == null) {
             tooltipComponent = null;
             return;
         }
 
-        tooltipComponent = ClientTooltipComponent.create(potentialTooltip.get());
+        tooltipComponent = ClientTooltipComponent.create(potentialTooltip);
     }
 
     @Inject(at = @At("RETURN"), method = "renderTooltip(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/item/ItemStack;II)V")
