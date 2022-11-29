@@ -76,13 +76,27 @@ public abstract class ScreenMixin {
 
     @ModifyConstant(method = "renderTooltip(Ljava/util/List;II)V", constant = @Constant(intValue = 0, ordinal = 0))
     int injectTooltipWidth(int constant) {
-         return tooltipComponent != null ? constant + tooltipComponent.getWidth() : constant;
+        return tooltipComponent != null ? constant + tooltipComponent.getWidth() : constant;
+    }
+
+    private int forIndex = 0;
+
+    @ModifyArg(method = "renderTooltip(Ljava/util/List;II)V",
+            at = @At(value = "INVOKE", target = "Ljava/util/List;get(I)Ljava/lang/Object;")
+    )
+    public int captureLocals(int original) {
+        forIndex = original;
+        return original;
     }
 
     @ModifyVariable(method = "renderTooltip(Ljava/util/List;II)V",
-                    at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client/gui/Font;drawShadow(Ljava/lang/String;FFI)I"),
-                    ordinal = 4)
-    int shiftDownardsRestOfTooltip(int value) {
-        return tooltipComponent != null ? value + tooltipComponent.getHeight() : value;
+            at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/client/gui/Font;drawShadow(Ljava/lang/String;FFI)I"),
+            ordinal = 4)
+    int shiftDownardsRestOfTooltip(int original) {
+        if (this.tooltipComponent == null)
+            return original;
+        if (forIndex == 1)
+            return original + this.tooltipComponent.getHeight();
+        return original;
     }
 }
