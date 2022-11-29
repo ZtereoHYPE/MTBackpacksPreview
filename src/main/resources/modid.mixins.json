@@ -4,7 +4,8 @@
   "package": "codes.ztereohype.mtbackpackspreview.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "ScreenMixin"
+    "ScreenMixin",
+    "CreativeSearchMixin"
   ],
   "injectors": {
     "defaultRequire": 1
