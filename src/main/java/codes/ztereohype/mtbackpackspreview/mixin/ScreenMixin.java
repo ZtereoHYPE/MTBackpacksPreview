@@ -27,14 +27,14 @@ public abstract class ScreenMixin {
 
     @Inject(at = @At("HEAD"), method = "renderTooltip(Lnet/minecraft/world/item/ItemStack;II)V")
     void getTooltipMetadata(ItemStack itemStack, int i, int j, CallbackInfo ci) {
-        Optional<TooltipComponent> potentialTooltip = TooltipManager.getCustomTooltip(itemStack);
+        TooltipComponent potentialTooltip = TooltipManager.getCustomTooltip(itemStack);
 
-        if (!potentialTooltip.isPresent()) {
+        if (potentialTooltip == null) {
             tooltipComponent = null;
             return;
         }
 
-        tooltipComponent = ClientTooltipComponent.create(potentialTooltip.get());
+        tooltipComponent = ClientTooltipComponent.create(potentialTooltip);
     }
 
     @Inject(at = @At("RETURN"), method = "renderTooltip(Lnet/minecraft/world/item/ItemStack;II)V")
