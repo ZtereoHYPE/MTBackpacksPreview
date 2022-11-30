@@ -1,29 +1,30 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
-  "version": "${version}",
+  "id": "mtbpprev",
+  "version": "1.0.0",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "MTBackpacks Preview",
+  "description": "A mod that integrates with the MTBackpacks plugin to show previewsby hovering over backpacks in the inventory.",
   "authors": [
-    "Me!"
+    "ZtereoHYPE",
+    "masecla22"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://masecla.dev/",
+    "sources": "https://github.com/ZtereoHYPE/MTBackpacksPreview"
   },
 
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
+  "license": "MIT",
+  "icon": "assets/mtbpprev/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "main": [
       "codes.ztereohype.mtbackpackspreview.MTBackpacksPreview"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "mtbpprev.mixins.json"
   ],
 
   "depends": {
