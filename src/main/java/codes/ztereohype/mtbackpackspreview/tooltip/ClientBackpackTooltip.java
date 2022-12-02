@@ -27,8 +27,6 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
     public ClientBackpackTooltip(BackpackTooltip backpackTooltip) {
         this.items = backpackTooltip.getItems();
         this.unlockedSize = backpackTooltip.getItems().size();
-
-        Identifier
     }
 
     @Override
