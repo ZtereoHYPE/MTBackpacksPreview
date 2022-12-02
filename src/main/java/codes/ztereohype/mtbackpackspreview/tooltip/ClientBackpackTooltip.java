@@ -1,5 +1,6 @@
 package codes.ztereohype.mtbackpackspreview.tooltip;
 
+import codes.ztereohype.mtbackpackspreview.MTBackpacksPreview;
 import codes.ztereohype.mtbackpackspreview.tooltip.interfaces.ClientTooltipComponent;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class ClientBackpackTooltip implements ClientTooltipComponent {
     private static final Identifier CHEST_LOCATION = new Identifier("textures/gui/container/generic_54.png");
-    public static final Identifier BUNDLE_LOCATION = new Identifier("modid:textures/bundle.png");
+    public static final Identifier BUNDLE_LOCATION = new Identifier(MTBackpacksPreview.MODID + ":textures/bundle.png");
     private static final int SLOT_SIZE = 18;
     private final List<ItemStack> items;
     private final int unlockedSize;
@@ -26,6 +27,8 @@ public class ClientBackpackTooltip implements ClientTooltipComponent {
     public ClientBackpackTooltip(BackpackTooltip backpackTooltip) {
         this.items = backpackTooltip.getItems();
         this.unlockedSize = backpackTooltip.getItems().size();
+
+        Identifier
     }
 
     @Override
