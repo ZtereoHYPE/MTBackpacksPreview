@@ -13,12 +13,12 @@ import java.util.Optional;
 
 @Mixin(Item.class)
 abstract class ItemMixin {
-	@Inject(at = @At("RETURN"), method = "getTooltipImage", cancellable = true)
-	private void injectCustomTooltip(ItemStack stack, CallbackInfoReturnable<Optional<TooltipComponent>> cir) {
-		var returned = TooltipManager.getCustomTooltip(stack);
-		if (returned.isPresent()) {
-			cir.setReturnValue(returned);
-			cir.cancel();
-		}
-	}
+    @Inject(at = @At("RETURN"), method = "getTooltipImage", cancellable = true)
+    private void injectCustomTooltip(ItemStack stack, CallbackInfoReturnable<Optional<TooltipComponent>> cir) {
+        var returned = TooltipManager.getCustomTooltip(stack);
+        if (returned.isPresent()) {
+            cir.setReturnValue(returned);
+            cir.cancel();
+        }
+    }
 }

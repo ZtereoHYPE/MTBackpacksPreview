@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "mtbpprev",
   "version": "1.0.0",
-
   "name": "MTBackpacks Preview",
   "description": "A mod that integrates with the MTBackpacks plugin to show previewsby hovering over backpacks in the inventory.",
   "authors": [
@@ -13,10 +12,8 @@
     "homepage": "https://masecla.dev/",
     "sources": "https://github.com/ZtereoHYPE/MTBackpacksPreview"
   },
-
   "license": "MIT",
   "icon": "assets/mtbpprev/icon.png",
-
   "environment": "client",
   "entrypoints": {
     "main": [
@@ -26,7 +23,6 @@
   "mixins": [
     "mtbpprev.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.14.9",
     "minecraft": "~1.19",

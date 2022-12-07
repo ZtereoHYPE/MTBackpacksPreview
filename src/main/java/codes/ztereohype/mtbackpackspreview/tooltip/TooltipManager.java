@@ -11,6 +11,7 @@ import java.util.Optional;
 
 public class TooltipManager {
     private static final Gson gson = new Gson();
+
     public static Optional<TooltipComponent> getCustomTooltip(ItemStack stack) {
         CompoundTag nbtData = stack.getTag();
 
