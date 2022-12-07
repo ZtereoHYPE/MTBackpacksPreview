@@ -2,7 +2,7 @@ package codes.ztereohype.mtbackpackspreview;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.IntTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -25,12 +25,12 @@ public class BackpackContent {
         private int customModelData;
 
         public ItemStack getItemStack() {
-            ItemStack items = new ItemStack(Registry.ITEM.get(ResourceLocation.of(itemName.toLowerCase(), ':')), amount);
+            ItemStack items = new ItemStack(BuiltInRegistries.ITEM.get(ResourceLocation.of(itemName.toLowerCase(), ':')), amount);
 
             items.setDamageValue(durability);
 
             if (enchanted) {
-                Enchantment enchantment = Registry.ENCHANTMENT.get(ResourceLocation.of("minecraft:protection", ':'));
+                Enchantment enchantment = BuiltInRegistries.ENCHANTMENT.get(ResourceLocation.of("minecraft:protection", ':'));
                 items.enchant(enchantment, 1);
             }
 
