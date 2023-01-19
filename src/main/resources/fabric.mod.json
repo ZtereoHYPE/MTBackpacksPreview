@@ -1,7 +1,8 @@
 {
   "schemaVersion": 1,
   "id": "mtbpprev",
-  "version": "1.0.0",
+  "version": "1.0.1",
+
   "name": "MTBackpacks Preview",
   "description": "A mod that integrates with the MTBackpacks plugin to show previewsby hovering over backpacks in the inventory.",
   "authors": [
